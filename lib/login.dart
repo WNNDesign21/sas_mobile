@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math; // Digunakan untuk rotasi
 
 void main() {
   runApp(MyApp());
@@ -22,25 +21,12 @@ class SignInScreen extends StatelessWidget {
       body: Stack(
         children: [
           // 🔹 Background dengan Rotasi & Bisa Diatur Posisi & Ukurannya
-          Positioned(
-            top: 400, // Atur posisi vertikal (ubah sesuai keinginan)
-            left: -80, // Atur posisi horizontal (ubah sesuai keinginan)
-            child: Transform.rotate(
-              angle:
-                  math.pi / -2, // 🔄 Ubah angka ini untuk rotasi (dalam radian)
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width *
-                    1.5, // Ukuran lebar background
-                height: MediaQuery.of(context).size.height *
-                    0.6, // Ukuran tinggi background
-                child: Image.asset(
-                  'images/bglogin.png', // Pastikan path sesuai dengan aset
-                  fit: BoxFit.fill, // Bisa diganti menjadi contain, fill, dll.
-                ),
-              ),
+          Positioned.fill(
+            child: Image.asset(
+              'images/bgloginfix.png', // Pastikan path sesuai dengan aset
+              fit: BoxFit.cover, // Bisa diganti menjadi contain, fill, dll.
             ),
           ),
-
           // 🔹 Konten Login
           SafeArea(
             child: Center(
