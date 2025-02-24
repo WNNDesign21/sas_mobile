@@ -36,6 +36,7 @@ dependencies:
   flutter_gradient_colors: ^2.1.1
   google_fonts: ^6.2.1
   provider: ^6.1.2
+  sidebar_widget: ^0.1.3
 
 dev_dependencies:
   flutter_lints: ^5.0.0

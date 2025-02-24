@@ -7,7 +7,8 @@ class Dashboard extends StatefulWidget {
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<Dashboard> {
+class _DashboardScreenState extends State<Dashboard>
+    with SingleTickerProviderStateMixin {
   final List<Map<String, dynamic>> _subjects = [
     {
       "name": "Pemrograman Web",
@@ -25,6 +26,35 @@ class _DashboardScreenState extends State<Dashboard> {
       "color": Colors.purple,
     }
   ];
+
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+
+    _slideAnimation =
+        Tween<Offset>(begin: Offset(0, 0.3), end: Offset(0, 0)).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,55 +123,54 @@ class _DashboardScreenState extends State<Dashboard> {
 
           // 🔹 Box untuk Foto Mahasiswa + Background (Full & Responsif)
           Expanded(
-            child: Container(
-              width: double.infinity, // Box memenuhi lebar layar
-              height: MediaQuery.of(context).size.height *
-                  0.4, // Menyesuaikan layar
-              padding: EdgeInsets.symmetric(
-                horizontal: 0,
-              ), // Jarak samping agar rapi
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // 🔹 Background Transparan di Belakang (Full di dalam box)
-                  Positioned.fill(
-                    child: Opacity(
-                      opacity: 0.3, // Opacity sesuai desain
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('images/bgfix.png'), // Background
-                            fit: BoxFit.cover, // Background tidak terpotong
+            child: FadeTransition(
+              opacity: _animation,
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.4,
+                padding: EdgeInsets.symmetric(horizontal: 0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // 🔹 Background Transparan di Belakang (Full di dalam box)
+                    Positioned.fill(
+                      child: Opacity(
+                        opacity: 0.1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('images/bgfix.png'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
 
-                  // 🔹 Foto Mahasiswa di Depan (Full tanpa terpotong)
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                              AssetImage('images/adhi.png'), // Foto mahasiswa
-                          fit: BoxFit.contain, // Pastikan foto tidak terpotong
+                    // 🔹 Foto Mahasiswa di Depan (Full tanpa terpotong)
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/adhi.png'),
+                            fit: BoxFit.contain,
+                          ),
+                          boxShadow: [],
                         ),
-                        boxShadow: [],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
 
           /// 🔹 Grafik dalam Carousel Slider
           Padding(
-            padding: EdgeInsets.only(top: 5, bottom: 15), // Menyesuaikan posisi
+            padding: EdgeInsets.only(top: 5, bottom: 15),
             child: CarouselSlider(
               options: CarouselOptions(
-                height: 200, // Sesuai desain
+                height: 200,
                 enableInfiniteScroll: true,
                 enlargeCenterPage: true,
                 onPageChanged: (index, reason) {
@@ -227,8 +256,11 @@ class _DashboardScreenState extends State<Dashboard> {
                               LineChartBarData(
                                 spots: List.generate(
                                   subject["data"].length,
-                                  (index) => FlSpot(index.toDouble(),
-                                      subject["data"][index].toDouble()),
+                                  (index) => FlSpot(
+                                    index.toDouble(),
+                                    subject["data"][index].toDouble() *
+                                        _animation.value,
+                                  ),
                                 ),
                                 isCurved: true,
                                 color: subject["color"],
@@ -304,7 +336,7 @@ class _DashboardScreenState extends State<Dashboard> {
                 ),
               ),
               Positioned(
-                bottom: 25, // Menyesuaikan QR Code agar menyentuh footer
+                bottom: 25,
                 child: CircleAvatar(
                   backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                   radius: 35,
