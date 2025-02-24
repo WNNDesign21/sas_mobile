@@ -59,6 +59,8 @@ flutter:
     - assets/images/jarr.png
     - assets/images/adhi.png
     - assets/images/logo.png
+    - assets/images/logosasputih.png
+    - assets/images/sidebar.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
