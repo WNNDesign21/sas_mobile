@@ -92,7 +92,7 @@ class _DashboardScreenState extends State<Dashboard>
 
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
-      width: MediaQuery.of(context).size.width * 0.5, // Lebar setengah layar
+      width: 250, // Lebar sidebar tetap
       backgroundColor:
           Colors.transparent, // Make the drawer background transparent
       child: Container(
@@ -105,12 +105,12 @@ class _DashboardScreenState extends State<Dashboard>
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Increased blur
             child: Column(
               children: [
-                SizedBox(height: 80),
+                SizedBox(height: 90),
                 Image.asset(
                   'assets/images/sidebar.png',
                   width: 180,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 50),
                 ..._buildDrawerItems(context),
                 Spacer(),
                 _buildLogoutButton(context),
@@ -132,10 +132,17 @@ class _DashboardScreenState extends State<Dashboard>
 
     return drawerItems.map((item) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.red.withOpacity(0.7), // Reduced opacity
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 255, 45, 28),
+                Color.fromARGB(255, 205, 0, 0)
+              ], // Warna gradient
+              begin: Alignment.topCenter, // Gradient dari atas ke bawah
+              end: Alignment.bottomCenter,
+            ),
             borderRadius: BorderRadius.circular(30),
           ),
           child: ListTile(
@@ -152,10 +159,17 @@ class _DashboardScreenState extends State<Dashboard>
 
   Widget _buildLogoutButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.red.shade900.withOpacity(0.7), // Reduced opacity
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 255, 45, 28),
+              Color.fromARGB(255, 205, 0, 0)
+            ], // Warna gradient
+            begin: Alignment.topCenter, // Gradient dari atas ke bawah
+            end: Alignment.bottomCenter,
+          ),
           borderRadius: BorderRadius.circular(30),
         ),
         child: ListTile(
@@ -217,7 +231,7 @@ class _DashboardScreenState extends State<Dashboard>
           ),
           Positioned(
             top: 25,
-            left: 25,
+            left: 40,
             child: Builder(
               builder: (context) => IconButton(
                 icon: Icon(Icons.menu, color: Colors.white, size: 39),
@@ -229,7 +243,7 @@ class _DashboardScreenState extends State<Dashboard>
           ),
           Positioned(
             top: 30,
-            right: 30,
+            right: 50,
             child: Image.asset(
               'assets/images/logosasputih.png', // Pastikan file ada di dalam assets
               width: 50,
