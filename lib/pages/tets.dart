@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'dart:math' as math;
 
 class Dashboard extends StatefulWidget {
   @override
