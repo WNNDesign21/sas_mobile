@@ -11,10 +11,26 @@ class LoginPage extends StatelessWidget {
       body: Stack(
         children: [
           // 🔹 Background Gambar
-          Positioned.fill(
-            child: Image.asset(
-              'images/bgloginfix.png',
-              fit: BoxFit.cover,
+          // Positioned.fill(
+          //   child: Image.asset(
+          //     'images/bgloginfix.png',
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
+          Positioned(
+            right: 0, // Pindahkan ke paling kiri
+            bottom: 0, // Pindahkan ke paling bawah
+            child: Container(
+              width:
+                  MediaQuery.of(context).size.width * 1, // Hanya setengah layar
+              height: MediaQuery.of(context).size.height *
+                  1, // Atur tinggi agar sesuai
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/bg.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
 
@@ -28,12 +44,20 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // 🔹 Logo (Dinaikkan dengan Transform)
+                      // Transform.translate(
+                      //   offset: Offset(0, -70), // Geser ke atas
+                      //   child: Image.asset(
+                      //     'images/logo.png',
+                      //     width: 200,
+                      //     height: 80,
+                      //     fit: BoxFit.fitWidth,
+                      //   ),
+                      // ),
                       Transform.translate(
                         offset: Offset(0, -70), // Geser ke atas
                         child: Image.asset(
                           'images/logo.png',
-                          width: 200,
-                          height: 80,
+                          width: 350,
                           fit: BoxFit.fitWidth,
                         ),
                       ),
