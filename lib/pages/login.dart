@@ -10,29 +10,29 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // 🔹 Background Gambar
-          // Positioned.fill(
-          //   child: Image.asset(
-          //     'images/bgloginfix.png',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
-          Positioned(
-            right: 0, // Pindahkan ke paling kiri
-            bottom: 0, // Pindahkan ke paling bawah
-            child: Container(
-              width:
-                  MediaQuery.of(context).size.width * 1, // Hanya setengah layar
-              height: MediaQuery.of(context).size.height *
-                  1, // Atur tinggi agar sesuai
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('images/bg.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
+          //🔹 Background Gambar
+          Positioned.fill(
+            child: Image.asset(
+              'images/bgloginfix.png',
+              fit: BoxFit.cover,
             ),
           ),
+          // Positioned(
+          //   right: 0, // Pindahkan ke paling kiri
+          //   bottom: 0, // Pindahkan ke paling bawah
+          //   child: Container(
+          //     width:
+          //         MediaQuery.of(context).size.width * 1, // Hanya setengah layar
+          //     height: MediaQuery.of(context).size.height *
+          //         1, // Atur tinggi agar sesuai
+          //     decoration: BoxDecoration(
+          //       image: DecorationImage(
+          //         image: AssetImage('images/bg.png'),
+          //         fit: BoxFit.cover,
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           // 🔹 Konten Login
           SafeArea(
@@ -54,10 +54,10 @@ class LoginPage extends StatelessWidget {
                       //   ),
                       // ),
                       Transform.translate(
-                        offset: Offset(0, -70), // Geser ke atas
+                        offset: Offset(0, -120), // Geser ke atas
                         child: Image.asset(
                           'images/logo.png',
-                          width: 350,
+                          width: 300,
                           fit: BoxFit.fitWidth,
                         ),
                       ),

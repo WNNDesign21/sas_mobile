@@ -3,12 +3,15 @@ import 'package:provider/provider.dart';
 import 'pages/login.dart';
 import 'pages/dashboard.dart'; // Import dashboard
 import 'controllers/login_controller.dart';
+import 'controllers/profile_controller.dart';
+import 'pages/profile.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoginController()),
+        ChangeNotifierProvider(create: (context) => ProfileController()),
       ],
       child: MyApp(),
     ),
@@ -25,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => Dashboard(),
+        '/profile': (context) => ProfileWidget(),
       },
     );
   }

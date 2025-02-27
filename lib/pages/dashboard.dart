@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sas_project/pages/qr.dart';
+import 'package:sas_project/pages/profile.dart'; // Import profile.dart
 
 class Dashboard extends StatefulWidget {
   @override
@@ -92,7 +93,7 @@ class _DashboardScreenState extends State<Dashboard>
 
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
-      width: 250, // Lebar sidebar tetap
+      width: 200, // Lebar sidebar tetap
       backgroundColor:
           Colors.transparent, // Make the drawer background transparent
       child: Container(
@@ -105,10 +106,10 @@ class _DashboardScreenState extends State<Dashboard>
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Increased blur
             child: Column(
               children: [
-                SizedBox(height: 90),
+                SizedBox(height: 70),
                 Image.asset(
                   'assets/images/sidebar.png',
-                  width: 180,
+                  width: 170,
                 ),
                 SizedBox(height: 50),
                 ..._buildDrawerItems(context),
@@ -124,15 +125,19 @@ class _DashboardScreenState extends State<Dashboard>
 
   List<Widget> _buildDrawerItems(BuildContext context) {
     final List<Map<String, dynamic>> drawerItems = [
-      {"icon": Icons.home, "title": "Home"},
-      {"icon": Icons.person, "title": "Profile"},
-      {"icon": Icons.check_circle, "title": "Attendance"},
-      {"icon": Icons.settings, "title": "Setting"},
+      {"icon": Icons.home, "title": "Home", "route": "/dashboard"},
+      {"icon": Icons.person, "title": "Profile", "route": "/profile"},
+      {
+        "icon": Icons.check_circle,
+        "title": "Attendance",
+        "route": "/attendance"
+      },
+      {"icon": Icons.settings, "title": "Setting", "route": "/setting"},
     ];
 
     return drawerItems.map((item) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -149,7 +154,20 @@ class _DashboardScreenState extends State<Dashboard>
             leading: Icon(item["icon"], color: Colors.white),
             title: Text(item["title"], style: TextStyle(color: Colors.white)),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context); // Close the drawer
+              if (item["route"] == "/profile") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileWidget()),
+                );
+              } else if (item["route"] == "/dashboard") {
+                Navigator.pushReplacementNamed(context, '/dashboard');
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text('Fitur ${item["title"]} belum tersedia')),
+                );
+              }
             },
           ),
         ),
@@ -159,7 +177,7 @@ class _DashboardScreenState extends State<Dashboard>
 
   Widget _buildLogoutButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -177,7 +195,7 @@ class _DashboardScreenState extends State<Dashboard>
           title: Text("Logout", style: TextStyle(color: Colors.white)),
           onTap: () {
             Navigator.pop(context);
-            // Tambahkan aksi logout jika diperlukan
+            Navigator.pushReplacementNamed(context, '/login');
           },
         ),
       ),
@@ -231,7 +249,7 @@ class _DashboardScreenState extends State<Dashboard>
           ),
           Positioned(
             top: 25,
-            left: 40,
+            left: 20,
             child: Builder(
               builder: (context) => IconButton(
                 icon: Icon(Icons.menu, color: Colors.white, size: 39),
@@ -243,7 +261,7 @@ class _DashboardScreenState extends State<Dashboard>
           ),
           Positioned(
             top: 30,
-            right: 50,
+            right: 30,
             child: Image.asset(
               'assets/images/logosasputih.png', // Pastikan file ada di dalam assets
               width: 50,
