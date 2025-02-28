@@ -15,17 +15,17 @@ class _DashboardScreenState extends State<Dashboard>
   final List<Map<String, dynamic>> _subjects = [
     {
       "name": "Pemrograman Web",
-      "data": [90, 85, 80, 75, 60, 65],
+      "data": [90.0, 85.0, 80.0, 75.0, 60.0, 65.0],
       "color": Colors.purple,
     },
     {
       "name": "Pemrograman Mobile",
-      "data": [90, 85, 80, 75, 60, 65],
+      "data": [90.0, 85.0, 80.0, 75.0, 60.0, 65.0],
       "color": Colors.purple,
     },
     {
       "name": "Data Science",
-      "data": [90, 85, 80, 75, 60, 65],
+      "data": [90.0, 85.0, 80.0, 75.0, 60.0, 65.0],
       "color": Colors.purple,
     }
   ];
@@ -237,7 +237,7 @@ class _DashboardScreenState extends State<Dashboard>
                   ),
                 ),
                 Text(
-                  'Adhi Nur Fajar',
+                  'Christopan',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -288,7 +288,7 @@ class _DashboardScreenState extends State<Dashboard>
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/bgfix.png'),
+                      image: AssetImage('assets/images/bgfix.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -298,11 +298,11 @@ class _DashboardScreenState extends State<Dashboard>
             SlideTransition(
               position: _slideAnimation,
               child: FadeTransition(
-                opacity: _fadeAnimation,
+                opacity: _fadeAnimation, // Cast to double,
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/adhi.png'),
+                      image: AssetImage('assets/images/tangguh.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -365,11 +365,12 @@ class _DashboardScreenState extends State<Dashboard>
                             reservedSize: 40,
                             getTitlesWidget: (value, meta) {
                               return Text(
-                                value.toInt().toString(),
+                                value.toStringAsFixed(
+                                    1), // ✅ Ubah ke String dari Double
                                 style: TextStyle(fontSize: 12),
                               );
                             },
-                            interval: 50,
+                            interval: 50.0, // ✅ Pastikan double
                           ),
                         ),
                         bottomTitles: AxisTitles(
@@ -384,8 +385,13 @@ class _DashboardScreenState extends State<Dashboard>
                                 "Mei",
                                 "Jun"
                               ];
+                              int index = value
+                                  .round(); // ✅ Gunakan round() untuk memastikan indeks valid
                               return Text(
-                                months[value.toInt()],
+                                months[index.clamp(
+                                    0,
+                                    months.length -
+                                        1)], // ✅ Hindari error index out of range
                                 style: TextStyle(fontSize: 12),
                               );
                             },
@@ -398,18 +404,18 @@ class _DashboardScreenState extends State<Dashboard>
                           color: Colors.grey.withOpacity(0.3),
                         ),
                       ),
-                      minX: 0,
-                      maxX: 5,
-                      minY: 0,
-                      maxY: 100,
+                      minX: 0.0, // ✅ Ubah ke double
+                      maxX: 5.0, // ✅ Ubah ke double
+                      minY: 0.0, // ✅ Ubah ke double
+                      maxY: 100.0, // ✅ Ubah ke double
                       lineBarsData: [
                         LineChartBarData(
                           spots: List.generate(
                             subject["data"].length,
                             (index) => FlSpot(
                               index.toDouble(),
-                              subject["data"][index].toDouble() *
-                                  _animation.value,
+                              (subject["data"][index] as double) *
+                                  _animation.value, // ✅ Dipastikan Double
                             ),
                           ),
                           isCurved: true,
@@ -428,7 +434,7 @@ class _DashboardScreenState extends State<Dashboard>
                           ),
                           belowBarData: BarAreaData(
                             show: true,
-                            color: subject["color"]!.withOpacity(0),
+                            color: subject["color"]!.withOpacity(0.0),
                           ),
                         ),
                       ],

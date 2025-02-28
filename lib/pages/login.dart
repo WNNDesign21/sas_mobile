@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
           //🔹 Background Gambar
           Positioned.fill(
             child: Image.asset(
-              'images/bgloginfix.png',
+              'assets/images/bgloginfix.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -56,7 +56,7 @@ class LoginPage extends StatelessWidget {
                       Transform.translate(
                         offset: Offset(0, -120), // Geser ke atas
                         child: Image.asset(
-                          'images/logo.png',
+                          'assets/images/logo.png',
                           width: 300,
                           fit: BoxFit.fitWidth,
                         ),

@@ -44,6 +44,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/logo.png"
+  adaptive_icon_background: "#ffffff" # Untuk Android adaptive icon
+  adaptive_icon_foreground: "assets/icon/logo.png" # Jika ingin adaptive icon
+
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -63,6 +73,7 @@ flutter:
     - assets/images/logosasputih.png
     - assets/images/sidebar.png
     - assets/images/bg.png
+    - assets/images/tangguh.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
