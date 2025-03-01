@@ -15,7 +15,22 @@ class _DashboardScreenState extends State<Dashboard>
   final List<Map<String, dynamic>> _subjects = [
     {
       "name": "Pemrograman Web",
-      "data": [90.0, 85.0, 80.0, 75.0, 60.0, 65.0],
+      "data": [
+        90.0,
+        85.0,
+        80.0,
+        75.0,
+        60.0,
+        65.0,
+        70.0,
+        75.0,
+        80.0,
+        85.0,
+        90.0,
+        95.0,
+        100.0,
+        95.0
+      ],
       "color": Colors.purple,
     },
     {
@@ -378,12 +393,20 @@ class _DashboardScreenState extends State<Dashboard>
                             showTitles: true,
                             getTitlesWidget: (value, meta) {
                               List<String> months = [
-                                "Jan",
-                                "Feb",
-                                "Mar",
-                                "Apr",
-                                "Mei",
-                                "Jun"
+                                "Week 1",
+                                "Week 2",
+                                "Week 3",
+                                "Week 4",
+                                "Week 5",
+                                "Week 6",
+                                "Week 7",
+                                "Week 8",
+                                "Week 9",
+                                "Week 10",
+                                "Week 11",
+                                "Week 12",
+                                "Week 13",
+                                "Week 14",
                               ];
                               int index = value
                                   .round(); // ✅ Gunakan round() untuk memastikan indeks valid
