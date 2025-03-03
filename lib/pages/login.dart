@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controllers/login_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -88,9 +89,8 @@ class LoginPage extends StatelessWidget {
                               Text(
                                 'Sign in',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: GoogleFonts.balooBhai2(
                                   color: Colors.black,
-                                  fontFamily: 'Baloo Bhai',
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -171,10 +171,9 @@ class LoginPage extends StatelessWidget {
                                         )
                                       : Text(
                                           'Login',
-                                          style: TextStyle(
+                                          style: GoogleFonts.balooBhai2(
                                             fontSize: 20,
                                             color: Colors.white,
-                                            fontFamily: 'Baloo Bhai',
                                           ),
                                         ),
                                 ),
@@ -194,10 +193,9 @@ class LoginPage extends StatelessWidget {
                                 },
                                 child: Text(
                                   'Lupa Password?',
-                                  style: TextStyle(
+                                  style: GoogleFonts.balooBhai2(
                                     fontSize: 16,
                                     color: const Color.fromARGB(221, 0, 0, 0),
-                                    fontFamily: 'Baloo Bhai',
                                   ),
                                 ),
                               ),

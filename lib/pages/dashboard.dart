@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:sas_project/pages/qr.dart';
 import 'package:sas_project/pages/profile.dart'; // Import profile.dart
 import 'package:sas_project/pages/setting.dart'; // Import setting.dart
+import 'package:google_fonts/google_fonts.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -130,14 +131,30 @@ class _DashboardScreenState extends State<Dashboard>
 
   List<Widget> _buildDrawerItems(BuildContext context) {
     final List<Map<String, dynamic>> drawerItems = [
-      {"icon": Icons.home, "title": "Home", "route": "/dashboard"},
-      {"icon": Icons.person, "title": "Profile", "route": "/profile"},
+      {
+        "icon": "https://img.icons8.com/ios-glyphs/30/home.png",
+        "title": "Home",
+        "route": "/dashboard",
+        "isNetworkIcon": true, // Tambahkan flag untuk ikon dari internet
+      },
+      {
+        "icon": Icons.person,
+        "title": "Profile",
+        "route": "/profile",
+        "isNetworkIcon": true,
+      },
       {
         "icon": Icons.check_circle,
         "title": "Attendance",
-        "route": "/attendance"
+        "route": "/attendance",
+        "isNetworkIcon": true,
       },
-      {"icon": Icons.settings, "title": "Setting", "route": "/setting"},
+      {
+        "icon": Icons.settings,
+        "title": "Setting",
+        "route": "/setting",
+        "isNetworkIcon": true,
+      },
     ];
 
     return drawerItems.map((item) {
@@ -149,17 +166,29 @@ class _DashboardScreenState extends State<Dashboard>
               colors: [
                 Color.fromARGB(255, 255, 45, 28),
                 Color.fromARGB(255, 205, 0, 0)
-              ], // Warna gradient
-              begin: Alignment.topCenter, // Gradient dari atas ke bawah
+              ],
+              begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
             borderRadius: BorderRadius.circular(30),
           ),
           child: ListTile(
-            leading: Icon(item["icon"], color: Colors.white),
-            title: Text(item["title"], style: TextStyle(color: Colors.white)),
+            leading: item["isNetworkIcon"]
+                ? Image.network(
+                    item["icon"],
+                    width: 24,
+                    height: 24,
+                    color: Colors.white, // Agar sesuai dengan tema
+                  )
+                : Icon(item["icon"],
+                    color: Colors
+                        .white), // Gunakan default Icons jika bukan dari internet
+            title: Text(
+              item["title"],
+              style: GoogleFonts.balooBhai2(color: Colors.white),
+            ),
             onTap: () {
-              Navigator.pop(context); // Close the drawer
+              Navigator.pop(context);
               if (item["route"] == "/profile") {
                 Navigator.pushReplacement(
                   context,
@@ -205,7 +234,8 @@ class _DashboardScreenState extends State<Dashboard>
         ),
         child: ListTile(
           leading: Icon(Icons.logout, color: Colors.white),
-          title: Text("Logout", style: TextStyle(color: Colors.white)),
+          title: Text("Logout",
+              style: GoogleFonts.balooBhai2(color: Colors.white)),
           onTap: () {
             Navigator.pop(context);
             Navigator.pushReplacementNamed(context, '/login');
@@ -243,7 +273,7 @@ class _DashboardScreenState extends State<Dashboard>
                 Text(
                   'Welcome',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.balooBhai2(
                     color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -252,7 +282,7 @@ class _DashboardScreenState extends State<Dashboard>
                 Text(
                   'Adhi Nur Fajar',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.balooBhai2(
                     color: Colors.white,
                     fontSize: 22,
                   ),
@@ -320,7 +350,7 @@ class _DashboardScreenState extends State<Dashboard>
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/adhi.png'),
+                      image: AssetImage('assets/images/tangguh.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
