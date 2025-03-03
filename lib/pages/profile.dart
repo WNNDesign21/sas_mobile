@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui'; // Import dart:ui for ImageFilter
 import 'package:provider/provider.dart'; // Import provider
+import 'package:sas_project/pages/dashboard.dart';
+import 'package:sas_project/pages/setting.dart';
 
 import '../controllers/profile_controller.dart'; // Import the controller
 
@@ -16,6 +18,16 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       drawer: _buildDrawer(context),
       body: Stack(
         children: [
+          // 🔹 Background Image with Opacity
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.1, // Adjust opacity here (0.0 - 1.0)
+              child: Image.asset(
+                'assets/images/bgfix.png', // Replace with your image path
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Column(
             children: [
               _buildHeader(context),
@@ -99,7 +111,15 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   MaterialPageRoute(builder: (context) => ProfileWidget()),
                 );
               } else if (item["route"] == "/dashboard") {
-                Navigator.pushReplacementNamed(context, '/dashboard');
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard()),
+                );
+              } else if (item["route"] == "/setting") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingWidget()),
+                );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

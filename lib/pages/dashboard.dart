@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sas_project/pages/qr.dart';
 import 'package:sas_project/pages/profile.dart'; // Import profile.dart
+import 'package:sas_project/pages/setting.dart'; // Import setting.dart
 
 class Dashboard extends StatefulWidget {
   @override
@@ -15,22 +16,7 @@ class _DashboardScreenState extends State<Dashboard>
   final List<Map<String, dynamic>> _subjects = [
     {
       "name": "Pemrograman Web",
-      "data": [
-        90.0,
-        85.0,
-        80.0,
-        75.0,
-        60.0,
-        65.0,
-        70.0,
-        75.0,
-        80.0,
-        85.0,
-        90.0,
-        95.0,
-        100.0,
-        95.0
-      ],
+      "data": [90.0, 85.0, 80.0, 75.0, 60.0, 65.0],
       "color": Colors.purple,
     },
     {
@@ -45,42 +31,46 @@ class _DashboardScreenState extends State<Dashboard>
     }
   ];
 
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _animation;
+  // Durasi Animasi
+  final Duration animationDuration = Duration(seconds: 2);
+
+  // Controller untuk Animasi Grafik
+  late AnimationController _chartAnimationController;
+  late Animation<double> _chartAnimation;
+
+  // Status Animasi Student Photo
+  bool _showStudentPhoto = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+
+    // Controller untuk Animasi Grafik
+    _chartAnimationController = AnimationController(
+      duration: animationDuration,
       vsync: this,
-    )..forward();
-
-    // Animasi fade in
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
+    _chartAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _chartAnimationController,
+        curve: Curves.easeInOut, // Kurva lebih sederhana
+      ),
     );
 
-    // Animasi slide dari bawah ke atas
-    _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 1), // Mulai dari bawah
-      end: Offset(0, 0), // Berakhir di posisi normal
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    // Jalankan animasi grafik
+    _chartAnimationController.forward();
 
-    // Animasi untuk grafik
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller)
-      ..addListener(() {
-        setState(() {});
+    // Mulai animasi student photo setelah 500ms
+    Future.delayed(Duration(milliseconds: 500), () {
+      setState(() {
+        _showStudentPhoto = true;
       });
+    });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _chartAnimationController.dispose();
     super.dispose();
   }
 
@@ -171,12 +161,20 @@ class _DashboardScreenState extends State<Dashboard>
             onTap: () {
               Navigator.pop(context); // Close the drawer
               if (item["route"] == "/profile") {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => ProfileWidget()),
                 );
               } else if (item["route"] == "/dashboard") {
-                Navigator.pushReplacementNamed(context, '/dashboard');
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard()),
+                );
+              } else if (item["route"] == "/setting") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingWidget()),
+                );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -252,7 +250,7 @@ class _DashboardScreenState extends State<Dashboard>
                   ),
                 ),
                 Text(
-                  'Christopan',
+                  'Adhi Nur Fajar',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -310,14 +308,19 @@ class _DashboardScreenState extends State<Dashboard>
                 ),
               ),
             ),
-            SlideTransition(
-              position: _slideAnimation,
-              child: FadeTransition(
-                opacity: _fadeAnimation, // Cast to double,
+            // Animasi Student Photo
+            AnimatedOpacity(
+              opacity: _showStudentPhoto ? 1.0 : 0.0,
+              duration: animationDuration,
+              curve: Curves.easeInOut, // Kurva lebih sederhana
+              child: AnimatedSlide(
+                offset: _showStudentPhoto ? Offset(0, 0) : Offset(0, 1),
+                duration: animationDuration,
+                curve: Curves.easeInOut, // Kurva lebih sederhana
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/tangguh.png'),
+                      image: AssetImage('assets/images/adhi.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -339,7 +342,7 @@ class _DashboardScreenState extends State<Dashboard>
           enableInfiniteScroll: true,
           enlargeCenterPage: true,
           onPageChanged: (index, reason) {
-            setState(() {});
+            // Tidak perlu setState disini, karena hanya perubahan carousel
           },
         ),
         items: _subjects.map((subject) {
@@ -361,111 +364,102 @@ class _DashboardScreenState extends State<Dashboard>
               children: [
                 SizedBox(height: 10),
                 Expanded(
-                  child: LineChart(
-                    LineChartData(
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                            color: Colors.grey.withOpacity(0.3),
-                            strokeWidth: 1,
-                          );
-                        },
-                      ),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 40,
-                            getTitlesWidget: (value, meta) {
-                              return Text(
-                                value.toStringAsFixed(
-                                    1), // ✅ Ubah ke String dari Double
-                                style: TextStyle(fontSize: 12),
-                              );
-                            },
-                            interval: 50.0, // ✅ Pastikan double
-                          ),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              List<String> months = [
-                                "Week 1",
-                                "Week 2",
-                                "Week 3",
-                                "Week 4",
-                                "Week 5",
-                                "Week 6",
-                                "Week 7",
-                                "Week 8",
-                                "Week 9",
-                                "Week 10",
-                                "Week 11",
-                                "Week 12",
-                                "Week 13",
-                                "Week 14",
-                              ];
-                              int index = value
-                                  .round(); // ✅ Gunakan round() untuk memastikan indeks valid
-                              return Text(
-                                months[index.clamp(
-                                    0,
-                                    months.length -
-                                        1)], // ✅ Hindari error index out of range
-                                style: TextStyle(fontSize: 12),
+                  child: AnimatedBuilder(
+                    animation: _chartAnimation,
+                    builder: (context, child) {
+                      return LineChart(
+                        LineChartData(
+                          gridData: FlGridData(
+                            show: true,
+                            drawVerticalLine: false,
+                            getDrawingHorizontalLine: (value) {
+                              return FlLine(
+                                color: Colors.grey.withOpacity(0.3),
+                                strokeWidth: 1,
                               );
                             },
                           ),
-                        ),
-                      ),
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(0.3),
-                        ),
-                      ),
-                      minX: 0.0, // ✅ Ubah ke double
-                      maxX: 5.0, // ✅ Ubah ke double
-                      minY: 0.0, // ✅ Ubah ke double
-                      maxY: 100.0, // ✅ Ubah ke double
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: List.generate(
-                            subject["data"].length,
-                            (index) => FlSpot(
-                              index.toDouble(),
-                              (subject["data"][index] as double) *
-                                  _animation.value, // ✅ Dipastikan Double
+                          titlesData: FlTitlesData(
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 40,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toStringAsFixed(1),
+                                    style: TextStyle(fontSize: 12),
+                                  );
+                                },
+                                interval: 50.0,
+                              ),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  List<String> months = [
+                                    "W-1",
+                                    "W-2",
+                                    "W-3",
+                                    "W-4",
+                                    "W-5",
+                                    "W-6",
+                                  ];
+                                  int index = value.round();
+                                  return Text(
+                                    months[index.clamp(0, months.length - 1)],
+                                    style: TextStyle(fontSize: 12),
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                          isCurved: true,
-                          color: subject["color"],
-                          barWidth: 6,
-                          dotData: FlDotData(
+                          borderData: FlBorderData(
                             show: true,
-                            getDotPainter: (spot, percent, barData, index) {
-                              return FlDotCirclePainter(
-                                radius: 5,
-                                color: Colors.white,
-                                strokeWidth: 1,
-                                strokeColor: subject["color"],
-                              );
-                            },
+                            border: Border.all(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
                           ),
-                          belowBarData: BarAreaData(
-                            show: true,
-                            color: subject["color"]!.withOpacity(0.0),
-                          ),
+                          minX: 0.0,
+                          maxX: 5.0,
+                          minY: 0.0,
+                          maxY: 100.0,
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: List.generate(
+                                subject["data"].length,
+                                (index) => FlSpot(
+                                  index.toDouble(),
+                                  (subject["data"][index] as double) *
+                                      _chartAnimation.value,
+                                ),
+                              ),
+                              isCurved: true,
+                              color: subject["color"],
+                              barWidth: 6,
+                              dotData: FlDotData(
+                                show: true,
+                                getDotPainter: (spot, percent, barData, index) {
+                                  return FlDotCirclePainter(
+                                    radius: 5,
+                                    color: Colors.white,
+                                    strokeWidth: 1,
+                                    strokeColor: subject["color"],
+                                  );
+                                },
+                              ),
+                              belowBarData: BarAreaData(
+                                show: true,
+                                color: subject["color"]!.withOpacity(0.0),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
-                // 🔹 Legenda
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
