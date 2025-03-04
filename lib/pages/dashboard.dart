@@ -7,6 +7,8 @@ import 'package:sas_project/pages/profile.dart'; // Import profile.dart
 import 'package:sas_project/pages/setting.dart'; // Import setting.dart
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
