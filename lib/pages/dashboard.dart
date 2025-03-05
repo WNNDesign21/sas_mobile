@@ -131,30 +131,14 @@ class _DashboardScreenState extends State<Dashboard>
 
   List<Widget> _buildDrawerItems(BuildContext context) {
     final List<Map<String, dynamic>> drawerItems = [
-      {
-        "icon": "https://img.icons8.com/ios-glyphs/30/home.png",
-        "title": "Home",
-        "route": "/dashboard",
-        "isNetworkIcon": true, // Tambahkan flag untuk ikon dari internet
-      },
-      {
-        "icon": Icons.person,
-        "title": "Profile",
-        "route": "/profile",
-        "isNetworkIcon": true,
-      },
+      {"icon": Icons.home, "title": "Home", "route": "/dashboard"},
+      {"icon": Icons.person, "title": "Profile", "route": "/profile"},
       {
         "icon": Icons.check_circle,
         "title": "Attendance",
-        "route": "/attendance",
-        "isNetworkIcon": true,
+        "route": "/attendance"
       },
-      {
-        "icon": Icons.settings,
-        "title": "Setting",
-        "route": "/setting",
-        "isNetworkIcon": true,
-      },
+      {"icon": Icons.settings, "title": "Setting", "route": "/setting"},
     ];
 
     return drawerItems.map((item) {
@@ -166,29 +150,18 @@ class _DashboardScreenState extends State<Dashboard>
               colors: [
                 Color.fromARGB(255, 255, 45, 28),
                 Color.fromARGB(255, 205, 0, 0)
-              ],
-              begin: Alignment.topCenter,
+              ], // Warna gradient
+              begin: Alignment.topCenter, // Gradient dari atas ke bawah
               end: Alignment.bottomCenter,
             ),
             borderRadius: BorderRadius.circular(30),
           ),
           child: ListTile(
-            leading: item["isNetworkIcon"]
-                ? Image.network(
-                    item["icon"],
-                    width: 24,
-                    height: 24,
-                    color: Colors.white, // Agar sesuai dengan tema
-                  )
-                : Icon(item["icon"],
-                    color: Colors
-                        .white), // Gunakan default Icons jika bukan dari internet
-            title: Text(
-              item["title"],
-              style: GoogleFonts.balooBhai2(color: Colors.white),
-            ),
+            leading: Icon(item["icon"], color: Colors.white),
+            title: Text(item["title"],
+                style: GoogleFonts.balooBhai2(color: Colors.white)),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context); // Close the drawer
               if (item["route"] == "/profile") {
                 Navigator.pushReplacement(
                   context,
@@ -521,18 +494,14 @@ class _DashboardScreenState extends State<Dashboard>
       alignment: Alignment.bottomCenter,
       children: [
         ClipPath(
-          clipper: TopCurvedFooterClipper(),
+          // clipper: TopCurvedFooterClipper(),
           child: Container(
             height: 75,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromRGBO(79, 1, 2, 0.99),
-                  Color.fromRGBO(151, 41, 54, 0.995),
-                  Color.fromRGBO(194, 0, 30, 1),
-                ],
+              image: DecorationImage(
+                image: AssetImage(
+                    "assets/images/navbar.png"), // Ganti dengan gambar lokal kamu
+                fit: BoxFit.cover, // Agar gambar menyesuaikan ukuran container
               ),
             ),
           ),
@@ -559,35 +528,4 @@ class _DashboardScreenState extends State<Dashboard>
       ],
     );
   }
-}
-
-// 🔹 Clipper untuk membuat lengkungan atas tengah
-class TopCurvedFooterClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-
-    // Sisi kiri atas dengan border radius
-    path.moveTo(0, size.height);
-    path.lineTo(0, size.height * 0.3);
-    path.quadraticBezierTo(
-        size.width * 0.2, 0, size.width * 0.3, size.height * 0.1);
-
-    // Lengkungan ke bawah di tengah atas
-    path.cubicTo(size.width * 0.6, size.height * 0.6, size.width * 0.6,
-        size.height * 0.1, size.width * 0.8, 0);
-
-    // Sisi kanan atas dengan border radius
-    path.quadraticBezierTo(size.width * 0.89, 0, size.width, size.height * 0.2);
-    path.lineTo(size.width, size.height);
-
-    // Bagian bawah harus rata
-    path.lineTo(0, size.height);
-
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(TopCurvedFooterClipper oldClipper) => false;
 }

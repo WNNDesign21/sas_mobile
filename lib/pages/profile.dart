@@ -3,12 +3,211 @@ import 'dart:ui'; // Import dart:ui for ImageFilter
 import 'package:provider/provider.dart'; // Import provider
 import 'package:sas_project/pages/dashboard.dart';
 import 'package:sas_project/pages/setting.dart';
-
 import '../controllers/profile_controller.dart'; // Import the controller
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfileWidget extends StatefulWidget {
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
+}
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    // 🔹 Sidebar (Drawer)
+    drawer: _buildDrawer(context),
+
+    // 🔹 Header + Hamburger Menu
+    body: Stack(
+      children: [
+        Column(
+          children: <Widget>[
+            _buildHeader(context),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildDrawer(BuildContext context) {
+  return Drawer(
+    width: 200, // Lebar sidebar tetap
+    backgroundColor:
+        Colors.transparent, // Make the drawer background transparent
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white
+            .withOpacity(0.3), // Adjust opacity for desired transparency level
+      ),
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Increased blur
+          child: Column(
+            children: [
+              SizedBox(height: 70),
+              Image.asset(
+                'assets/images/sidebar.png',
+                width: 170,
+              ),
+              SizedBox(height: 50),
+              ..._buildDrawerItems(context),
+              Spacer(),
+              _buildLogoutButton(context),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+List<Widget> _buildDrawerItems(BuildContext context) {
+  final List<Map<String, dynamic>> drawerItems = [
+    {"icon": Icons.home, "title": "Home", "route": "/dashboard"},
+    {"icon": Icons.person, "title": "Profile", "route": "/profile"},
+    {"icon": Icons.check_circle, "title": "Attendance", "route": "/attendance"},
+    {"icon": Icons.settings, "title": "Setting", "route": "/setting"},
+  ];
+
+  return drawerItems.map((item) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 255, 45, 28),
+              Color.fromARGB(255, 205, 0, 0)
+            ], // Warna gradient
+            begin: Alignment.topCenter, // Gradient dari atas ke bawah
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: ListTile(
+          leading: Icon(item["icon"], color: Colors.white),
+          title: Text(item["title"],
+              style: GoogleFonts.balooBhai2(color: Colors.white)),
+          onTap: () {
+            Navigator.pop(context); // Close the drawer
+            if (item["route"] == "/profile") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileWidget()),
+              );
+            } else if (item["route"] == "/dashboard") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Dashboard()),
+              );
+            } else if (item["route"] == "/setting") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingWidget()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text('Fitur ${item["title"]} belum tersedia')),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }).toList();
+}
+
+Widget _buildLogoutButton(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+    child: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 255, 45, 28),
+            Color.fromARGB(255, 205, 0, 0)
+          ], // Warna gradient
+          begin: Alignment.topCenter, // Gradient dari atas ke bawah
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: ListTile(
+        leading: Icon(Icons.logout, color: Colors.white),
+        title:
+            Text("Logout", style: GoogleFonts.balooBhai2(color: Colors.white)),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pushReplacementNamed(context, '/login');
+        },
+      ),
+    ),
+  );
+}
+
+Widget _buildHeader(BuildContext context) {
+  return Container(
+    height: 120,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(53),
+        bottomRight: Radius.circular(53),
+      ),
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color.fromRGBO(79, 1, 2, 0.99),
+          Color.fromRGBO(151, 41, 54, 0.99),
+          Color.fromRGBO(194, 0, 30, 1),
+        ],
+      ),
+    ),
+    child: Stack(
+      children: [
+        Positioned(
+          top: 30,
+          left: MediaQuery.of(context).size.width / 2 - 70,
+          child: Column(
+            children: [
+              Text(
+                'Profile',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.balooBhai2(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 25,
+          left: 20,
+          child: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, color: Colors.white, size: 39),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),
+        ),
+        Positioned(
+          top: 30,
+          right: 30,
+          child: Image.asset(
+            'assets/images/logosasputih.png', // Pastikan file ada di dalam assets
+            width: 50,
+            height: 50,
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
@@ -31,11 +230,17 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           Column(
             children: [
               _buildHeader(context),
+              _buildProfileCard(context), // ✅ Card Tetap
               Expanded(
                 child: SingleChildScrollView(
-                  child: _buildProfileContent(context),
+                  child: Column(
+                    children: [
+                      _buildProfileContent(context), // ✅ Form Bisa Scroll
+                    ],
+                  ),
                 ),
               ),
+              _buildUploadEditSaveButtons(), // ✅ Tombol Tetap di Bawah
             ],
           ),
         ],
@@ -43,175 +248,61 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     );
   }
 
-  Widget _buildDrawer(BuildContext context) {
-    return Drawer(
-      width: 200,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.3),
-        ),
-        child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Column(
-              children: [
-                SizedBox(height: 70),
-                Image.asset(
-                  'assets/images/sidebar.png',
-                  width: 170,
-                ),
-                SizedBox(height: 50),
-                ..._buildDrawerItems(context),
-                Spacer(),
-                _buildLogoutButton(context),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildDrawerItems(BuildContext context) {
-    final List<Map<String, dynamic>> drawerItems = [
-      {"icon": Icons.home, "title": "Home", "route": "/dashboard"},
-      {"icon": Icons.person, "title": "Profile", "route": "/profile"},
-      {
-        "icon": Icons.check_circle,
-        "title": "Attendance",
-        "route": "/attendance"
-      },
-      {"icon": Icons.settings, "title": "Setting", "route": "/setting"},
-    ];
-
-    return drawerItems.map((item) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 255, 45, 28),
-                Color.fromARGB(255, 205, 0, 0)
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: ListTile(
-            leading: Icon(item["icon"], color: Colors.white),
-            title: Text(item["title"], style: TextStyle(color: Colors.white)),
-            onTap: () {
-              Navigator.pop(context);
-              if (item["route"] == "/profile") {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileWidget()),
-                );
-              } else if (item["route"] == "/dashboard") {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Dashboard()),
-                );
-              } else if (item["route"] == "/setting") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingWidget()),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('Fitur ${item["title"]} belum tersedia')),
-                );
-              }
-            },
-          ),
-        ),
-      );
-    }).toList();
-  }
-
-  Widget _buildLogoutButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 255, 45, 28),
-              Color.fromARGB(255, 205, 0, 0)
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: ListTile(
-          leading: Icon(Icons.logout, color: Colors.white),
-          title: Text("Logout", style: TextStyle(color: Colors.white)),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushReplacementNamed(context, '/login');
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
+  /// ✅ Card Profil Tetap di Atas
+  Widget _buildProfileCard(BuildContext context) {
     return Container(
-      height: 120,
+      width: MediaQuery.of(context).size.width, // Lebar mengikuti layar
+      margin: EdgeInsets.all(35),
+      padding: EdgeInsets.all(0), // Padding bisa diatur sesuai keinginan
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(53),
-          bottomRight: Radius.circular(53),
-        ),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color.fromRGBO(79, 1, 2, 0.99),
-            Color.fromRGBO(151, 41, 54, 0.99),
-            Color.fromRGBO(194, 0, 30, 1),
-          ],
-        ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
       ),
-      child: Stack(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Positioned(
-            top: 60,
-            left: MediaQuery.of(context).size.width / 2 - 50,
-            child: Text(
-              'Profile',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+          // Gambar Profil
+          Container(
+            width: 180, // Sesuaikan dengan kebutuhan
+            height: 180, // Sesuaikan tinggi
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/tangguh.png"),
+                fit: BoxFit.scaleDown,
               ),
             ),
           ),
-          Positioned(
-            top: 25,
-            left: 20,
-            child: Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.menu, color: Colors.white, size: 39),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              ),
-            ),
-          ),
-          Positioned(
-            top: 30,
-            right: 30,
-            child: Image.asset(
-              'assets/images/logosasputih.png',
-              width: 50,
-              height: 50,
+          SizedBox(width: 16), // Jarak antara gambar dan teks
+
+          // Kolom Informasi Profil
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Logo kecil di atas
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    width: 180,
+                    height: 50,
+                  ),
+                ),
+                SizedBox(height: 8), // Jarak antara logo dan teks
+
+                // Informasi Profil
+                _buildProfileRow("Nama:", "Fajar Nur Farrijal"),
+                _buildProfileRow("NPM:", "4337855201230105"),
+                _buildProfileRow("Fakultas:", "Informatika"),
+                _buildProfileRow("Valid:", "2023 - 2027"),
+              ],
             ),
           ),
         ],
@@ -219,144 +310,79 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     );
   }
 
+// Fungsi untuk membuat baris informasi profil
+  Widget _buildProfileRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(width: 4),
+          Text(value),
+        ],
+      ),
+    );
+  }
+
+  /// ✅ Form Bisa Scroll
   Widget _buildProfileContent(BuildContext context) {
-    final profileController =
-        Provider.of<ProfileController>(context); //get the profileController
+    final profileController = Provider.of<ProfileController>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 40),
-          _buildProfileTextFields(profileController), // Pass the controller
-          SizedBox(height: 60), // Increased space here
-          _buildUploadPhotoButton(profileController), // Pass the controller
-          SizedBox(height: 20), // Increased space here
-          _buildEditSaveButtons(profileController), // Pass the controller
-          SizedBox(height: 10),
+          _buildTextField('Nama', profileController.namaController),
+          _buildTextField('NPM', profileController.npmController),
+          _buildTextField('Fakultas', profileController.fictController),
+          _buildTextField('Email', profileController.emailController),
+          _buildTextField('Nama ibu kandung', profileController.ibuController),
+          _buildTextField('Agama', profileController.agamaController),
+          _buildTextField('Alamat', profileController.alamatController),
+          SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  Widget _buildEditSaveButtons(ProfileController profileController) {
+  /// ✅ Tombol Upload, Edit, Simpan Tetap di Bawah
+  Widget _buildUploadEditSaveButtons() {
     return Container(
-      width: 272,
-      height: 42,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 143,
-            child: InkWell(
-              onTap: () {
-                // Handle save logic here, call profileController.saveProfileData()
-                profileController.saveProfileData();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Simpan clicked!')),
-                );
-              },
-              child: Container(
-                width: 129,
-                height: 42,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(27),
-                  gradient: LinearGradient(
-                    begin: Alignment(6.123234262925839e-17, 1),
-                    end: Alignment(-1, 6.123234262925839e-17),
-                    colors: [
-                      Color.fromRGBO(255, 45, 28, 1),
-                      Color.fromRGBO(205, 0, 0, 1),
-                    ],
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Simpan',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontFamily: 'Baloo Bhai',
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            child: InkWell(
-              onTap: () {
-                // Handle Edit logic here
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Edit clicked!')),
-                );
-              },
-              child: Container(
-                width: 129,
-                height: 42,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(27),
-                  color: Color.fromRGBO(91, 6, 0, 1),
-                ),
-                child: Center(
-                  child: Text(
-                    'Edit',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontFamily: 'Baloo Bhai',
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Column(
+        children: [
+          _buildUploadPhotoButton(),
+          SizedBox(height: 10),
+          _buildEditSaveButtons(),
         ],
       ),
     );
   }
 
-  Widget _buildUploadPhotoButton(ProfileController profileController) {
+  Widget _buildUploadPhotoButton() {
     return GestureDetector(
       onTap: () {
-        // Handle image upload using the profileController
-        profileController.pickImage();
+        // Handle image upload logic here
       },
       child: Container(
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(90),
-          color: Color.fromRGBO(255, 255, 255, 1),
+          color: Colors.white,
           border: Border.all(
-            color: Color.fromRGBO(133, 127, 127, 1),
+            color: Colors.grey,
             width: 2,
           ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.cloud_upload_outlined,
-                color: const Color.fromARGB(255, 231, 8, 8)),
+            Icon(Icons.cloud_upload_outlined, color: Colors.red),
             SizedBox(width: 5),
             Text(
               'Upload foto',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color.fromRGBO(0, 0, 0, 1),
-                fontFamily: 'Baloo 2',
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                height: 1,
-              ),
+              style: TextStyle(fontSize: 14),
             ),
           ],
         ),
@@ -364,55 +390,59 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     );
   }
 
-  Widget _buildProfileTextFields(ProfileController profileController) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          _buildTextField('Nama Lengkap', profileController.namaController),
-          SizedBox(height: 40), // Reduced space between fields
-          _buildTextField('NPM', profileController.npmController),
-          SizedBox(height: 40), // Reduced space between fields
-          _buildTextField('No Hp', profileController.noHpController),
-          SizedBox(height: 40), // Reduced space between fields
-          _buildTextField('Email', profileController.emailController),
-          SizedBox(height: 40), // Reduced space between fields
-          _buildTextField('Alamat', profileController.alamatController),
-          SizedBox(height: 40), // Reduced space between fields
-          _buildTextField('FICT/Informatika', profileController.fictController),
-        ],
+  Widget _buildEditSaveButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildButton("Edit", Colors.black),
+        _buildButton("Simpan", Colors.red),
+      ],
+    );
+  }
+
+  Widget _buildButton(String title, Color color) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+          ),
+          child: Text(
+            title,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       ),
     );
   }
 
+  /// ✅ Input Field
   Widget _buildTextField(String label, TextEditingController controller) {
-    return Container(
-      height: 49,
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(255, 255, 255, 0.6700000166893005),
-        border: Border.all(
-          color: Color.fromRGBO(133, 127, 127, 1),
-          width: 2,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0),
-        child: TextFormField(
-          controller: controller, // Use the provided controller
-          decoration: InputDecoration(
-            hintText: label, // Use label as hint text
-            hintStyle: TextStyle(
-              color: Color.fromRGBO(0, 0, 0, 0.41999998688697815),
-              fontFamily: 'Baloo 2',
-              fontSize: 18,
-              fontWeight: FontWeight.normal,
-              height: 1,
-            ),
-            border: InputBorder.none, // Remove the default border
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.grey,
+            width: 2,
           ),
-          style: TextStyle(
-            color: Colors.black, // Text color when typing
-            fontFamily: 'Baloo 2',
-            fontSize: 18,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: TextFormField(
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: label,
+              border: InputBorder.none,
+            ),
           ),
         ),
       ),
