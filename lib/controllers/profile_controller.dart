@@ -9,6 +9,8 @@ class ProfileController extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
   TextEditingController fictController = TextEditingController();
+  TextEditingController ibuController = TextEditingController();
+  TextEditingController agamaController = TextEditingController();
 
   // Image picker
   final ImagePicker _picker = ImagePicker();
