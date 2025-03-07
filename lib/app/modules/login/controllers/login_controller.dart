@@ -1,37 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
+import '../../widget/loading_login_screen.dart';
 
 class LoginController extends GetxController {
-  final TextEditingController npmController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final RxBool isLoading = false.obs; // Menggunakan RxBool
-  final RxString errorMessage = "".obs; // Menggunakan RxString
+  final npmController = TextEditingController();
+  final passwordController = TextEditingController();
+  final errorMessage = Rxn<String>(); // Gunakan Rxn untuk String nullable
+  final isLoading = false.obs;
 
-  // Simulasi proses login
   Future<void> login() async {
-    String npm = npmController.text.trim();
-    String password = passwordController.text.trim();
+    // Reset error message
+    errorMessage.value = null;
 
-    if (npm.isEmpty || password.isEmpty) {
-      errorMessage.value = "NPM dan Password wajib diisi!";
-      return;
+    // Validasi input
+    if (npmController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty) {
+      // Tampilkan alert jika NPM atau password kosong
+      Get.snackbar(
+        "Peringatan",
+        "NPM dan Password harus diisi",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return; // Hentikan proses login
     }
 
-    // Simulasi loading
-    isLoading.value = true;
-    await Future.delayed(const Duration(seconds: 2));
+    // Tampilkan Loading
+    LoadingLoginScreen.showLoading(); // Panggil tanpa await
+    isLoading.value = true; // Set isLoading menjadi true saat mulai login
 
-    // Simulasi autentikasi sukses
-    if (npm == "12345678" && password == "123") {
-      errorMessage.value = "";
-      isLoading.value = false;
+    // Simulasi request login (Ganti dengan logika login yang sebenarnya)
+    try {
+      // delay 1 detik
+      await Future.delayed(const Duration(seconds: 2));
 
-      // 🔥 Navigasi ke dashboard setelah login berhasil
-      Get.offAllNamed(Routes.DASHBOARD);
-    } else {
-      errorMessage.value = "NPM atau Password salah!";
-      isLoading.value = false;
+      // contoh login berhasil
+      if (npmController.text == '123' && passwordController.text == '123') {
+        // Navigasi ke Dashboard jika berhasil
+        Get.offAllNamed(Routes.DASHBOARD);
+        print("login berhasil");
+      } else {
+        // Jika login gagal, set error message
+        errorMessage.value = "NPM atau Password Salah";
+        print("login gagal");
+      }
+    } catch (e) {
+      // Tangani error jika ada
+      errorMessage.value = "Terjadi kesalahan saat login.";
+      print("Terjadi kesalahan saat login");
+    } finally {
+      isLoading.value = false; // Set isLoading menjadi false setelah selesai
+      LoadingLoginScreen
+          .hideLoading(); // Sembunyikan Loading Setelah proses selesai
     }
   }
 

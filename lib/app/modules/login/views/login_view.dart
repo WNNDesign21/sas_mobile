@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../widget/loading_login_screen.dart';
 import '../controllers/login_controller.dart';
 import '../../../routes/app_pages.dart';
 
@@ -126,35 +127,37 @@ class LoginView extends GetView<LoginController> {
                                   ),
                                   borderRadius: BorderRadius.circular(25),
                                 ),
-                                child: ElevatedButton(
-                                  onPressed: controller.isLoading.value
-                                      ? null
-                                      : () {
-                                          controller.login();
-                                        },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 50),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                  ),
-                                  child: Obx(() => controller.isLoading.value
-                                      ? const CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.white),
-                                        )
-                                      : Text(
-                                          'Login',
-                                          style: GoogleFonts.balooBhai2(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        )),
-                                ),
+                                child: Obx(() => ElevatedButton(
+                                      onPressed: controller.isLoading.value
+                                          ? null
+                                          : () async {
+                                              // panggil function login() yang ada pada LoginController
+                                              await controller.login();
+                                            },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 50),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        backgroundColor: Colors.transparent,
+                                        shadowColor: Colors.transparent,
+                                      ),
+                                      child: controller.isLoading.value
+                                          ? const CircularProgressIndicator(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.white),
+                                            )
+                                          : Text(
+                                              'Login',
+                                              style: GoogleFonts.balooBhai2(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                    )),
                               ),
 
                               const SizedBox(height: 10),
