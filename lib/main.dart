@@ -1,35 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'pages/login.dart';
-import 'pages/dashboard.dart'; // Import dashboard
-import 'controllers/login_controller.dart';
-import 'controllers/profile_controller.dart';
-import 'pages/profile.dart';
+import 'package:get/get.dart';
+
+import 'app/routes/app_pages.dart'; // Sudah benar
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => LoginController()),
-        ChangeNotifierProvider(create: (context) => ProfileController()),
-      ],
-      child: MyApp(),
+    GetMaterialApp(
+      title: "Smart Attandance Students",
+      initialRoute: AppPages.INITIAL, // Sudah benar
+      getPages: AppPages.routes, // Sudah benar
+      debugShowCheckedModeBanner: false,
     ),
   );
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'My App',
-      initialRoute: '/login', // Langsung ke halaman login
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/dashboard': (context) => Dashboard(),
-        '/profile': (context) => ProfileWidget(),
-      },
-    );
-  }
 }

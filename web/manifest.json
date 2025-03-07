@@ -1,6 +1,6 @@
 {
-    "name": "sas_project",
-    "short_name": "sas_project",
+    "name": "sas_mobile",
+    "short_name": "sas_mobile",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
