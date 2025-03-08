@@ -19,7 +19,7 @@ class LoadingLoginScreen {
 }
 
 class _LoadingLoginScreenWidget extends StatefulWidget {
-  const _LoadingLoginScreenWidget({Key? key}) : super(key: key);
+  const _LoadingLoginScreenWidget();
 
   @override
   State<_LoadingLoginScreenWidget> createState() =>

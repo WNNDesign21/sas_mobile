@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../widget/loading_login_screen.dart';
 import '../controllers/login_controller.dart';
-import '../../../routes/app_pages.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
@@ -16,7 +14,7 @@ class LoginView extends GetView<LoginController> {
           //🔹 Background Gambar
           Positioned.fill(
             child: Image.asset(
-              'images/bgloginfix.png',
+              'assets/images/bgloginfix.png',
               fit: BoxFit.cover,
             ),
           ),

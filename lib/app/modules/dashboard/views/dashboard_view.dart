@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
@@ -91,7 +90,7 @@ class DashboardView extends GetView<DashboardController> {
             top: 30,
             right: 30,
             child: Image.asset(
-              'images/logosasputih.png',
+              'assets/images/logosasputih.png',
               width: 50,
               height: 50,
             ),
@@ -182,10 +181,8 @@ class DashboardView extends GetView<DashboardController> {
             onTap: () async {
               //tambahkan async
               String? result = await Get.toNamed(Routes.QR); //tambahkan await
-              if (result != null) {
-                //lakukan tindakan dengan data result
-                print(result);
-              }
+              //lakukan tindakan dengan data result
+              print(result);
             },
             child: const CircleAvatar(
               backgroundColor: Color.fromARGB(255, 255, 255, 255),
