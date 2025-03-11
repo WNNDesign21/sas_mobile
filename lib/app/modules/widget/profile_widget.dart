@@ -31,7 +31,7 @@ class ProfileCardWidget extends GetView<ProfileController> {
             height: 190, // Sesuaikan tinggi
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/adhi.png"),
+                image: AssetImage("assets/images/adhi.png"),
                 fit: BoxFit.scaleDown,
               ),
             ),
@@ -47,7 +47,7 @@ class ProfileCardWidget extends GetView<ProfileController> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Image.asset(
-                    'images/HUI_logo.png',
+                    'assets/images/HUI_logo.png',
                     fit: BoxFit.fill,
                   ),
                 ),

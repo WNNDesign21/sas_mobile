@@ -19,7 +19,7 @@ class ProfileView extends GetView<ProfileController> {
             child: Opacity(
               opacity: 0.1, // Adjust opacity here (0.0 - 1.0)
               child: Image.asset(
-                'images/bgfix.png', // Replace with your image path
+                'assets/images/bgfix.png', // Replace with your image path
                 fit: BoxFit.cover,
               ),
             ),
@@ -98,7 +98,7 @@ class ProfileView extends GetView<ProfileController> {
             top: 30,
             right: 30,
             child: Image.asset(
-              'images/logosasputih.png',
+              'assets/images/logosasputih.png',
               width: 50,
               height: 50,
             ),

@@ -170,7 +170,7 @@ class DashboardView extends GetView<DashboardController> {
           height: 75,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("images/navbar.png"),
+              image: AssetImage("assets/images/navbar.png"),
               fit: BoxFit.cover,
             ),
           ),

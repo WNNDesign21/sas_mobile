@@ -22,7 +22,7 @@ class AnimatedStudentPhoto extends GetView<DashboardController> {
                 child: Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/bgfix.png'),
+                      image: AssetImage('assets/images/bgfix.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -43,7 +43,7 @@ class AnimatedStudentPhoto extends GetView<DashboardController> {
                   child: Container(
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('images/adhi.png'),
+                        image: AssetImage('assets/images/adhi.png'),
                         fit: BoxFit.contain,
                       ),
                     ),

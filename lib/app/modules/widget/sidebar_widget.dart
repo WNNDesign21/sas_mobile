@@ -26,7 +26,7 @@ class SidebarWidget extends StatelessWidget {
               children: [
                 const SizedBox(height: 70),
                 Image.asset(
-                  'images/sidebar.png',
+                  'assets/images/sidebar.png',
                   width: 170,
                 ),
                 const SizedBox(height: 50),
@@ -56,7 +56,7 @@ class SidebarWidget extends StatelessWidget {
       {
         "icon": Icons.check_circle,
         "title": "Attendance",
-        "route": "/attendance",
+        "route": Routes.ATTENDANCE,
       },
       {
         "icon": Icons.settings,
@@ -94,12 +94,8 @@ class SidebarWidget extends StatelessWidget {
                 Get.offNamed(Routes.DASHBOARD);
               } else if (item["route"] == Routes.SETTINGS) {
                 Get.toNamed(Routes.SETTINGS);
-              } else {
-                Get.snackbar(
-                  'Not Implemented',
-                  'Fitur ${item["title"]} belum tersedia',
-                  snackPosition: SnackPosition.BOTTOM,
-                );
+              } else if (item["route"] == Routes.ATTENDANCE) {
+                Get.toNamed(Routes.ATTENDANCE);
               }
             },
           ),
