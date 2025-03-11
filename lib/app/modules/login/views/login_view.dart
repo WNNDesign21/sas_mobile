@@ -14,7 +14,7 @@ class LoginView extends GetView<LoginController> {
           //🔹 Background Gambar
           Positioned.fill(
             child: Image.asset(
-              'assets/images/bgloginfix.png',
+              'images/bgloginfix.png',
               fit: BoxFit.cover,
             ),
           ),

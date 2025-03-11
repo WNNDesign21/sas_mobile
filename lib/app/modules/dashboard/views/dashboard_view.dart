@@ -90,7 +90,7 @@ class DashboardView extends GetView<DashboardController> {
             top: 30,
             right: 30,
             child: Image.asset(
-              'assets/images/logosasputih.png',
+              'images/logosasputih.png',
               width: 50,
               height: 50,
             ),
