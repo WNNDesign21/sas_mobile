@@ -1,0 +1,2 @@
+C:/Project/sas_mobile/android/app/.cxx/RelWithDebInfo/5w3m44c6/x86_64/CMakeFiles/edit_cache.dir
+C:/Project/sas_mobile/android/app/.cxx/RelWithDebInfo/5w3m44c6/x86_64/CMakeFiles/rebuild_cache.dir

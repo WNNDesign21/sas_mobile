@@ -9,15 +9,15 @@ class ProfileCardWidget extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width, // Lebar mengikuti layar
-      margin: const EdgeInsets.all(15),
+      margin: const EdgeInsets.only(bottom: 15, top: 15, left: 50, right: 50),
       padding: const EdgeInsets.all(2), // Padding bisa diatur sesuai keinginan
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.8),
+            blurRadius: 20,
             offset: const Offset(0, 5),
           ),
         ],
@@ -27,8 +27,8 @@ class ProfileCardWidget extends GetView<ProfileController> {
         children: [
           // Gambar Profil
           Container(
-            width: 190, // Sesuaikan dengan kebutuhan
-            height: 190, // Sesuaikan tinggi
+            width: 120, // Sesuaikan dengan kebutuhan
+            height: 160, // Sesuaikan tinggi
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/adhi.png"),
@@ -41,23 +41,27 @@ class ProfileCardWidget extends GetView<ProfileController> {
           // Kolom Informasi Profil
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo kecil di atas
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Image.asset(
-                    'assets/images/HUI_logo.png',
-                    fit: BoxFit.fill,
+                Padding(
+                  padding: const EdgeInsets.only(
+                      right: 15), // Menambahkan padding kiri
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Image.asset(
+                      'assets/images/HUI_logo.png',
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 5), // Jarak antara logo dan teks
+                const SizedBox(height: 15), // Jarak antara logo dan teks
 
                 // Informasi Profil
-                _buildProfileRow("Nama:", "Fajar Nur Farrijal"),
-                _buildProfileRow("NPM:", "4337855201230105"),
-                _buildProfileRow("Fakultas:", "Informatika"),
-                _buildProfileRow("Valid:", "2023 - 2027"),
+                _buildProfileRow("Nama", "Wendi Nugraha N"),
+                _buildProfileRow("NPM", "4337855201230105"),
+                _buildProfileRow("Fakultas", "Informatika"),
+                _buildProfileRow("Valid", "2023 - 2027"),
               ],
             ),
           ),
@@ -69,12 +73,28 @@ class ProfileCardWidget extends GetView<ProfileController> {
   // Fungsi untuk membuat baris informasi profil
   Widget _buildProfileRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
       child: Row(
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(width: 4),
-          Text(value),
+          SizedBox(
+            // Tambahkan SizedBox untuk label
+            width: 50, // Atur lebar label
+            child: Text(
+              "$label",
+              style: const TextStyle(fontSize: 11),
+            ),
+          ),
+          const Text(
+            " : ",
+            style: TextStyle(fontSize: 11),
+          ),
+          Expanded(
+            // Tambahkan Expanded untuk nilai
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 11),
+            ),
+          ),
         ],
       ),
     );
