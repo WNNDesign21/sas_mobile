@@ -76,7 +76,7 @@ class _LoadingLoginScreenWidgetState extends State<_LoadingLoginScreenWidget>
               child: Opacity(
                 opacity: 0.3,
                 child: Image.asset(
-                  'images/bgloginfix.png',
+                  'assets/images/bgloginfix.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -96,7 +96,7 @@ class _LoadingLoginScreenWidgetState extends State<_LoadingLoginScreenWidget>
                           offset: Offset(_offsetAnimation.value,
                               0.0), // Animasi kanan-kiri
                           child: Image.asset(
-                            'images/logo.png', // Logo aplikasi
+                            'assets/images/logo.png', // Logo aplikasi
                             width: 200, // Sesuaikan ukuran logo
                             height: 200,
                           ),

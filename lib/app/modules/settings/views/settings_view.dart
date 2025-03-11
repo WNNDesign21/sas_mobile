@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sas_mobile/app/routes/app_pages.dart';
 // Sesuaikan path
 import '../../widget/sidebar_widget.dart'; // Import SidebarWidget
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +8,7 @@ import '../controllers/settings_controller.dart'; //import controller
 
 class SettingsView extends GetView<SettingsController> {
   //gunakan GetView
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,7 @@ class SettingsView extends GetView<SettingsController> {
             child: Opacity(
               opacity: 0.1, // Adjust opacity here (0.0 - 1.0)
               child: Image.asset(
-                'images/bgfix.png', // Replace with your image path
+                'assets/images/bgfix.png', // Replace with your image path
                 fit: BoxFit.cover,
               ),
             ),
@@ -37,7 +38,8 @@ class SettingsView extends GetView<SettingsController> {
                   icon: Icons.security,
                   onTap: () {
                     // Aksi ketika Keamanan diklik
-                    Get.snackbar('Keamanan', 'Fitur keamanan belum tersedia');
+                    // Get.snackbar('Keamanan', 'Fitur keamanan belum tersedia');
+                    Get.toNamed(Routes.KEAMANAN_VIEW);
                   },
                 ),
                 _buildDivider(), // Divider antara item
@@ -111,7 +113,7 @@ class SettingsView extends GetView<SettingsController> {
             top: 30,
             right: 30,
             child: Image.asset(
-              'images/logosasputih.png',
+              'assets/images/logosasputih.png',
               width: 50,
               height: 50,
             ),

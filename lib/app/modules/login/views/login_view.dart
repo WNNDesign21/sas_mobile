@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sas_mobile/app/routes/app_pages.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -30,7 +31,7 @@ class LoginView extends GetView<LoginController> {
                       Transform.translate(
                         offset: const Offset(0, -120), // Geser ke atas
                         child: Image.asset(
-                          'images/logo.png',
+                          'assets/images/logo.png',
                           width: 300,
                           fit: BoxFit.fitWidth,
                         ),
@@ -163,12 +164,7 @@ class LoginView extends GetView<LoginController> {
                               // 🔹 Lupa Password
                               TextButton(
                                 onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Fitur Lupa Password Belum Tersedia'),
-                                    ),
-                                  );
+                                  Get.toNamed(Routes.LUPA_PW);
                                 },
                                 child: Text(
                                   'Lupa Password?',
