@@ -179,13 +179,16 @@ class DashboardView extends GetView<DashboardController> {
           bottom: 25,
           child: GestureDetector(
             onTap: () async {
-              //tambahkan async
-              String? result = await Get.toNamed(Routes.QR); //tambahkan await
-              //lakukan tindakan dengan data result
-              print(result);
+              String? result = await Get.toNamed(Routes.QR);
+              if (result != null) {
+                print("Data QR : $result");
+                Get.snackbar("QR Code Scanned!", "Data: $result");
+              } else {
+                print("No QR data scanned or user cancelled");
+              }
             },
-            child: const CircleAvatar(
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            child: CircleAvatar(
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
               radius: 35,
               child: Icon(Icons.qr_code_scanner, color: Colors.black, size: 40),
             ),
