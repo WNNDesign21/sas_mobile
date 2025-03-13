@@ -4,7 +4,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import '../controllers/qr_controller.dart'; // Import yang benar
 
 class ScanqrWidget extends GetView<ScanqrController> {
-  //gunakan GetView
   const ScanqrWidget({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +12,7 @@ class ScanqrWidget extends GetView<ScanqrController> {
 
     return Scaffold(
       body: Stack(
-        children: <Widget>[
+        children: [
           // 🔹 Kamera Scanner
           MobileScanner(
             controller: controller.cameraController,
@@ -62,7 +61,7 @@ class ScanqrWidget extends GetView<ScanqrController> {
 
           // 🔹 Tombol Menu di Kiri Atas
           Positioned(
-            top: screenSize.height * 0.03,
+            top: MediaQuery.of(context).padding.top,
             left: screenSize.width * 0.05,
             child: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white, size: 39),
@@ -73,9 +72,7 @@ class ScanqrWidget extends GetView<ScanqrController> {
           ),
 
           // 🔹 Kotak Fokus QR Scanner
-          Positioned(
-            top: screenSize.height * 0.3,
-            left: screenSize.width * 0.15,
+          Center(
             child: Container(
               width: screenSize.width * 0.7,
               height: screenSize.width * 0.7,
@@ -91,24 +88,38 @@ class ScanqrWidget extends GetView<ScanqrController> {
 
           // 🔹 Tombol Flash & Kamera Switch
           Positioned(
-            bottom: 100,
-            left: screenSize.width * 0.3,
+            bottom: screenSize.height * 0.15,
+            left: 0,
+            right: 0,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon:
-                      const Icon(Icons.flash_on, color: Colors.white, size: 35),
-                  onPressed: () {
-                    controller.cameraController.toggleTorch();
-                  },
+                Obx(
+                  () => IconButton(
+                    icon: Icon(
+                        controller.isFlashOn.value
+                            ? Icons.flash_on
+                            : Icons.flash_off,
+                        color: Colors.white,
+                        size: 35),
+                    onPressed: () {
+                      controller.toggleFlash();
+                    },
+                  ),
                 ),
                 const SizedBox(width: 40),
-                IconButton(
-                  icon: const Icon(Icons.cameraswitch,
-                      color: Colors.white, size: 35),
-                  onPressed: () {
-                    controller.cameraController.switchCamera();
-                  },
+                Obx(
+                  () => IconButton(
+                    icon: Icon(
+                        controller.isFrontCamera.value
+                            ? Icons.camera_front
+                            : Icons.camera_rear,
+                        color: Colors.white,
+                        size: 35),
+                    onPressed: () {
+                      controller.switchCamera();
+                    },
+                  ),
                 ),
               ],
             ),
