@@ -7,7 +7,11 @@ project(runner LANGUAGES CXX)
 set(BINARY_NAME "sas_mobile")
 # The unique GTK application identifier for this application. See:
 # https://wiki.gnome.org/HowDoI/ChooseApplicationID
+<<<<<<< HEAD
 set(APPLICATION_ID "com.sas_mobile.sas_mobile")
+=======
+set(APPLICATION_ID "com.CyberNova.sas_mobile")
+>>>>>>> 114cd73e1b2f0968a822520c048971a7e5d043f7
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.

@@ -29,7 +29,6 @@ import '../modules/settings/views/settings_view.dart';
 import '../modules/ubah_sandi/bindings/ubah_sandi_binding.dart';
 import '../modules/ubah_sandi/views/ubah_sandi_view.dart';
 
-
 part 'app_routes.dart';
 
 class AppPages {

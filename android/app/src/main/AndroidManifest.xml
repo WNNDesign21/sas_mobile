@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -10,6 +11,10 @@
     <application
         android:label="sas_mobile"
         android:enableOnBackInvokedCallback="true"
+=======
+    <application
+        android:label="sas_mobile"
+>>>>>>> 114cd73e1b2f0968a822520c048971a7e5d043f7
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

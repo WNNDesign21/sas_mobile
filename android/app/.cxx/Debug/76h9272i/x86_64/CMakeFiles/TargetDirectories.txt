@@ -1,0 +1,2 @@
+C:/src/sas_mobile/android/app/.cxx/Debug/76h9272i/x86_64/CMakeFiles/edit_cache.dir
+C:/src/sas_mobile/android/app/.cxx/Debug/76h9272i/x86_64/CMakeFiles/rebuild_cache.dir

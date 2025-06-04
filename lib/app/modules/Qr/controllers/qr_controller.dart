@@ -64,7 +64,6 @@ class ScanqrController extends GetxController {
     isLoading.value = true;
     errorMessage.value = '';
 
-    // 1. Deteksi VPN
     bool isVpnActive = false;
     try {
       // Menggunakan metode isVpnActive dari vpn_connection_detector
